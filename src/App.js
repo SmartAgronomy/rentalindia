@@ -11,10 +11,11 @@ import LoginUpdated from "./Components/pages/login";
 import Profile from "./Components/pages/profile";
 import Admin from "./Components/pages/admin";
 import AdminLogin from "./adminlogin";
-import FAQ from "./Components/pages/FAQ"
+import FAQ from "./Components/pages/FAQ";
+import Cart from "./Components/pages/cart";
 
 
-function App() {
+function App(cartItems, setCartItems) {
   return (
     <div className="App">
       
@@ -33,6 +34,8 @@ function App() {
           <Route path="privacy_policy" element={<Privacy_Policy /> }></Route>
           <Route path="profile" element={<Profile/>}></Route>
           <Route path="faq" element={<FAQ/>}></Route>
+          <Route path="cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />}></Route>
+
           
       </Routes>
     </div>

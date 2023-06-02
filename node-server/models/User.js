@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const userSchema = new mongoose.Schema({
   fname: {
@@ -39,9 +40,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  cart: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
   role: {
     type: Number,
-    default: 1,
+    default: 0,
 }
 });
 

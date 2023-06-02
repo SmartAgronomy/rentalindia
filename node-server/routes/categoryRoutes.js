@@ -2,19 +2,7 @@ const express = require('express');
 const router = express.Router();
 const categoryController = require('../controller/categoryController');
 
-// GET /categories - Get all categories
-// router.get('/', async (req, res) => {
-//   try {
-//     const result = await getCategories();
-//     if (result.success) {
-//       res.status(200).json(result.categories);
-//     } else {
-//       res.status(500).json({ error: result.message });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+
 
 router.get('/', async (req, res) => {
     const categoryResult = await categoryController.getCategories();

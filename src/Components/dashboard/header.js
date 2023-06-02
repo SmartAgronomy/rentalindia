@@ -33,7 +33,10 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import "../pages/styles/cartcount.css";
+import axios from "axios";
+import { useEffect } from "react";
+const [searchInput, setSearchInput] = useState("");
 
 
 function Header() {
@@ -48,6 +51,7 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const [cartCount, setCartCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -58,11 +62,32 @@ function Header() {
 
 
 
-  //   const subMenu=document.getElementById("subMenu");
-  // function toggleMenu(){
-  //   subMenu.classList.toggle('open-menu');
+  useEffect(() => {
+    // Fetch the cart data and update the cartCount
+    const fetchCartCount = async () => {
+      const userId = localStorage.getItem("userID");
+      const token = cookies.access_token;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-  // }
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/api/getCart",
+          { userId },
+          { headers }
+        );
+        const cartData = response.data.data.cart || [];
+        setCartCount(cartData.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (cookies.access_token) {
+      fetchCartCount();
+    }
+  }, [isLogged, cookies.access_token]);
 
   const logout = () => {
     setCookies("access_token", "");
@@ -78,16 +103,34 @@ function Header() {
     return null;
   };
 
+  const handleSearch = () => {
+    navigate(`/products?search=${searchInput}`);
+  };
+
 
 
   return (
     <header>
       <img class="website_logo" src={Website_logo} />
-      <div class="search_bar">
-        <input class="search-input" type="search" placeholder="Search for Products..." />
-        <input class="search-btn" type="button" value="Search" />
-      </div>
-      <img class="cart" src={cart} />
+      <div className="search_bar">
+        <input
+          className="search-input"
+          type="search"
+          placeholder="Search for Products..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
+        <input
+          className="search-btn"
+          type="button"
+          value="Search"
+          onClick={handleSearch}
+        />
+        </div>
+      <Link to="cart" class="cart">
+        <img src={cart} />
+        {cartCount > 0 && <span class="cart-notification">{cartCount}</span>}
+      </Link>
       <nav >
         <ul>
 
@@ -171,15 +214,7 @@ function Header() {
 
 
         </ul>
-        {/* <div class="button">
-            {!cookies.access_token ? (
-              <Link to="/signin" ><button>Sign in</button></Link>,
-              <Link to="/signup"><button>Sign Up</button></Link>,
-              <Link to="/profile"><button/>Profile</Link>  
-              ) : (
-                <button onClick={logout}> Logout </button>
-              )}
-            </div> */}
+    
 
         <div class="button">
           {!cookies.access_token ? (
@@ -273,54 +308,6 @@ function Header() {
 
       </nav>
 
-
-      {/* <img class="bar" src={bars} onClick={toggleMenu} /> */}
-
-      {/* <div class="sub-menu-wrap" >
-            <div class="sub-menu"  id="subMenu">
-              <Link to="#" class="sub-menu-link">
-                <img src={reports} />
-                <p>Reports</p>
-                <span>&gt;</span>
-              </Link>
-  
-              <Link to="#" class="sub-menu-link">
-                <img src={services} />
-                <p>Services</p>
-                <span>&gt;</span>
-                
-              </Link>
-  
-              <Link to="#" class="sub-menu-link">
-                <img src={languages} />
-                <p>Languages</p>
-                <span>&gt;</span>
-                
-              </Link>
-  
-              <Link to="#" class="sub-menu-link">
-                <img src={settings} />
-                <p>Settings</p>
-                <span>&gt;</span>
-                
-              </Link>
-  
-              <Link to="#" class="sub-menu-link">
-                <img src={sign_in} />
-                <p>Accounts</p>
-                <span>&gt;</span>
-  
-                
-              </Link>
-  
-              <Link to="#" class="sub-menu-link">
-                <img src={FAQ} />
-                <p>FAQ</p>
-                <span>&gt;</span>
-                
-              </Link>
-            </div>
-          </div> */}
       <div class="logo">
         <img class="website_logo" src={Website_logo} />
       </div>

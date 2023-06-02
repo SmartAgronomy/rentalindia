@@ -55,3 +55,33 @@ border:1px solid black;
     transition:.3s ease-in;
 }
 
+.product-list-container {
+    margin-top: 70px;
+  }
+  
+  .product-list-container > div {
+    margin-bottom: 10px;
+  }
+  
+  .product-list-container input[type="text"],
+  .product-list-container select {
+    margin-right: 10px;
+  }
+  
+  .product-list-container button {
+    margin-left: 10px;
+  }
+  
+  .product-list-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .product-list-container li {
+    margin-bottom: 20px;
+  }
+  
+  .product-list-container li img {
+    max-width: 200px;
+  }
+  
